@@ -13,6 +13,7 @@ import com.desenvcarlos.desenvback.domain.Cidade;
 import com.desenvcarlos.desenvback.domain.Cliente;
 import com.desenvcarlos.desenvback.domain.Endereco;
 import com.desenvcarlos.desenvback.domain.Estado;
+import com.desenvcarlos.desenvback.domain.ItemPedido;
 import com.desenvcarlos.desenvback.domain.Pagamento;
 import com.desenvcarlos.desenvback.domain.PagamentoComBoleto;
 import com.desenvcarlos.desenvback.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.desenvcarlos.desenvback.repositories.CidadeRepository;
 import com.desenvcarlos.desenvback.repositories.ClienteRepository;
 import com.desenvcarlos.desenvback.repositories.EnderecoRepository;
 import com.desenvcarlos.desenvback.repositories.EstadoRepository;
+import com.desenvcarlos.desenvback.repositories.ItemPedidoRepository;
 import com.desenvcarlos.desenvback.repositories.PagamentoRepository;
 import com.desenvcarlos.desenvback.repositories.PedidoRepository;
 import com.desenvcarlos.desenvback.repositories.ProdutoRepository;
@@ -55,6 +57,9 @@ public class DesenvbackApplication implements CommandLineRunner {
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(DesenvbackApplication.class, args);
@@ -120,6 +125,20 @@ public class DesenvbackApplication implements CommandLineRunner {
 		
 		pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.0, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.0, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3));
 		
 	}
 

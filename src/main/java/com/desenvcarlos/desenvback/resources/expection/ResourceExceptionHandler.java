@@ -21,7 +21,7 @@ public class ResourceExceptionHandler {
 	}
 	
 	@ExceptionHandler(DataIntegrityException.class)
-	public ResponseEntity<StantardError> dataIntegrity(ObjectNotFoundException e, HttpServletRequest request) {
+	public ResponseEntity<StantardError> dataIntegrity(DataIntegrityException e, HttpServletRequest request) {
 		
 		StantardError err = new StantardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
